@@ -17,6 +17,7 @@ These versions require at least MOS 1.03.
     -o Org start address in hexadecimal format, default is 40000
     -b Fillbyte in hexadecimal format, default is FF
     -a ADL mode 1/0, default is 1
+    -i Ignore value truncation warnings
     -l Listing to file with .lst extension
     -s Export symbols
     -d Direct listing to console
