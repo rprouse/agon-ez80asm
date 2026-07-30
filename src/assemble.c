@@ -863,6 +863,10 @@ void handle_asm_incbin(void) {
         address += ci->size;
     }
     if(pass == ENDPASS) {
+        // .ds and .align defer their fill bytes until the next output byte.
+        // Flush them before incbin's direct-write paths bypass emit_8bit().
+        if(ci->size) ioFlushDSSpaces();
+
         if(completefilebuffering) {
             if(listing) { // Output needs to pass to the listing through emit_8bit, performance-hit
                 for(n = 0; n < ci->size; n++) emit_8bit(ci->buffer[n]);

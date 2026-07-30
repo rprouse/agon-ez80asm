@@ -19,6 +19,7 @@ bool ioInit(const char *input_filename, const char *output_filename); // init - 
 void ioClose(void);                                // close everything at end, do cleanup
 void ioPutc(uint8_t fh, unsigned char c);          // buffered write of a single byte / fallback
 int  ioPuts(uint8_t fh, const char *s);                  // buffered write of a string / fallback
+void ioFlushDSSpaces(void);
 void emit_8bit(uint8_t value);
 void emit_16bit(uint16_t value);
 void emit_24bit(uint24_t value);

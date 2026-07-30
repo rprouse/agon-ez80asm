@@ -204,15 +204,19 @@ void ioClose(void) {
     _deleteFiles();
 }
 
+void ioFlushDSSpaces(void) {
+    if(pass != ENDPASS) return;
+
+    if(listing && remaining_dsspaces) listPrintDSLines(remaining_dsspaces, fillbyte);
+    while(remaining_dsspaces) {
+        io_outputc(fillbyte);
+        remaining_dsspaces--;
+    }
+}
+
 void emit_8bit(uint8_t value) {
     if(pass == ENDPASS) {
-        if(remaining_dsspaces) {
-            if(listing) listPrintDSLines(remaining_dsspaces, fillbyte);
-            while(remaining_dsspaces) {
-                io_outputc(fillbyte);
-                remaining_dsspaces--;
-            }
-        }
+        ioFlushDSSpaces();
         if(listing) listEmit8bit(value);
         io_outputc(value);
     }

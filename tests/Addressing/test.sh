@@ -29,6 +29,26 @@ for FILE in *; do
                         echo " match"
                         tests_successfull=$((tests_successfull+1))
                     fi
+                elif [ "$FILE" == "align_incbin.s" ]; then
+                    echo -n " - aligned incbin"
+                    if [ "$(wc -c < align_incbin.bin)" -eq 268 ] &&
+                       [ "$(od -An -v -tu1 -j1 -N255 align_incbin.bin | tr -s ' ' '\n' | grep -c '^255$')" -eq 255 ] &&
+                       cmp -s <(tail -c 12 align_incbin.bin) incbin_data.inc; then
+                        echo " match"
+                        tests_successfull=$((tests_successfull+1))
+                    else
+                        echo " error"
+                    fi
+                elif [ "$FILE" == "ds_incbin.s" ]; then
+                    echo -n " - reserved incbin"
+                    if [ "$(wc -c < ds_incbin.bin)" -eq 16 ] &&
+                       [ "$(od -An -v -tu1 -j1 -N3 ds_incbin.bin | tr -s ' ' '\n' | grep -c '^255$')" -eq 3 ] &&
+                       cmp -s <(tail -c 12 ds_incbin.bin) incbin_data.inc; then
+                        echo " match"
+                        tests_successfull=$((tests_successfull+1))
+                    else
+                        echo " error"
+                    fi
                 else
                     echo ""
                     tests_successfull=$((tests_successfull+1))
